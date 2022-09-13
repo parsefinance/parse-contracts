@@ -23,8 +23,9 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     uint256 public taxExpirationTime;
     uint256 public lastTimeTaxUpdated;
 
-    event LogRebase(uint256 indexed epoch, uint256 totalSupply);
-    event LogPolicyMakerUpdated(address policyMaker);
+    event rebased(uint256 indexed epoch, uint256 totalSupply);
+    event taxRateUpdated(uint256 indexed epoch, uint256 taxRate);
+    event policyMakerUpdated(address policyMaker);
     event treasuryUpdated(address oldTreasury, address newTreasury);
 
     modifier onlyPolicyMaker() {
@@ -58,13 +59,13 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         return (block.timestamp >= (lastTimeTaxUpdated + taxExpirationTime));
     }
 
-    function getTaxRate() external view returns (uint256) {
-        return taxRate;
-    }
-
-    function setTaxRate(uint256 taxRate_) external onlyPolicyMaker {
+    function setTaxRate(uint256 epoch, uint256 taxRate_)
+        external
+        onlyPolicyMaker
+    {
         taxRate = taxRate_;
         lastTimeTaxUpdated = block.timestamp;
+        emit taxRateUpdated(epoch, taxRate_);
     }
 
     function setTaxExpirationTime(uint256 taxExpirationTime_)
@@ -77,14 +78,14 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
 
     function setPolicyMaker(address policyMaker_) external onlyOwner {
         policyMaker = policyMaker_;
-        emit LogPolicyMakerUpdated(policyMaker_);
+        emit policyMakerUpdated(policyMaker_);
     }
 
     function setTreasuryAddress(address _treasury) external onlyOwner {
         require(treasury != _treasury);
 
         treasury = _treasury;
-        //emit treasuryUpdated(treasury, _treasury); LOG
+        emit treasuryUpdated(treasury, _treasury);
     }
 
     function rebase(uint256 epoch, int256 supplyDelta)
@@ -93,7 +94,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         returns (uint256)
     {
         if (supplyDelta == 0) {
-            emit LogRebase(epoch, _totalPARSESupply);
+            emit rebased(epoch, _totalPARSESupply);
             return _totalPARSESupply;
         }
 
@@ -109,7 +110,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
 
         _sharePerPARSE = TOTAL_SHARE / _totalPARSESupply;
 
-        emit LogRebase(epoch, _totalPARSESupply);
+        emit rebased(epoch, _totalPARSESupply);
         return _totalPARSESupply;
     }
 
