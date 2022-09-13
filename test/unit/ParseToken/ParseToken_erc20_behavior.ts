@@ -57,7 +57,7 @@ async function upgradeableToken() {
     .setPolicyMaker(await policy.getAddress())
   await token
     .connect(policy)
-    .setTaxRate(toFixedPoint('0'))
+    .setTaxRate(0, toFixedPoint('0'))
   return { token, owner, recipient, anotherAccount }
 }
 

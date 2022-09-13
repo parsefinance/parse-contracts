@@ -40,7 +40,7 @@ async function setupContracts() {
     .setPolicyMaker(await policy.getAddress())
   await parseToken
     .connect(policy)
-    .setTaxRate(toFixedPoint('0'))
+    .setTaxRate(0, toFixedPoint('0'))
 }
 
 describe('ParseToken', () => {
@@ -88,7 +88,7 @@ describe('ParseToken:setPolicyMaker', async () => {
 
   it('should set reference to policy contract', async function () {
     await expect(parseToken.connect(deployer).setPolicyMaker(policyAddress))
-      .to.emit(parseToken, 'LogPolicyMakerUpdated')
+      .to.emit(parseToken, 'policyMakerUpdated')
       .withArgs(policyAddress)
     expect(await parseToken.policyMaker()).to.eq(policyAddress)
   })
@@ -162,7 +162,7 @@ describe('ParseToken:Rebase:Expansion', async () => {
     // set tax rate to 0
     await parseToken
       .connect(policy)
-      .setTaxRate(toFixedPoint('0'))
+      .setTaxRate(0, toFixedPoint('0'))
     await parseToken
       .connect(deployer)
       .transfer(await A.getAddress(), toFixedPoint('750'))
@@ -189,7 +189,7 @@ describe('ParseToken:Rebase:Expansion', async () => {
 
   it('should emit Rebase', async function () {
     await expect(parseToken.connect(policy).rebase(1, rebaseAmt))
-      .to.emit(parseToken, 'LogRebase')
+      .to.emit(parseToken, 'rebased')
       .withArgs(1, initialSupply.add(rebaseAmt))
   })
 
@@ -250,7 +250,7 @@ describe('ParseToken:Rebase:Expansion', async function () {
       await expect(
         parseToken.connect(policy).rebase(2, toFixedPoint('2')),
       )
-        .to.emit(parseToken, 'LogRebase')
+        .to.emit(parseToken, 'rebased')
         .withArgs(2, MAX_SUPPLY)
     })
 
@@ -268,7 +268,7 @@ describe('ParseToken:Rebase:Expansion', async function () {
       await expect(
         parseToken.connect(policy).rebase(3, toFixedPoint('2')),
       )
-        .to.emit(parseToken, 'LogRebase')
+        .to.emit(parseToken, 'rebased')
         .withArgs(3, MAX_SUPPLY)
     })
 
@@ -317,7 +317,7 @@ describe('ParseToken:Rebase:NoChange', function () {
 
   it('should emit Rebase', async function () {
     await expect(parseToken.connect(policy).rebase(1, 0))
-      .to.emit(parseToken, 'LogRebase')
+      .to.emit(parseToken, 'rebased')
       .withArgs(1, initialSupply)
   })
 
@@ -387,7 +387,7 @@ describe('ParseToken:Rebase:Contraction', function () {
 
   it('should emit Rebase', async function () {
     await expect(parseToken.connect(policy).rebase(1, -rebaseAmt))
-      .to.emit(parseToken, 'LogRebase')
+      .to.emit(parseToken, 'rebased')
       .withArgs(1, initialSupply.sub(rebaseAmt))
   })
 

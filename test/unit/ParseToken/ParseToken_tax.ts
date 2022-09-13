@@ -47,7 +47,7 @@ async function mockedUpgradableparseToken() {
   await parseToken.connect(deployer).setTreasuryAddress(await deployer.getAddress())
 
   // add balance to accounts
-  await parseToken.connect(policyMaker).setTaxRate(ethers.utils.parseUnits('0', DECIMALS))
+  await parseToken.connect(policyMaker).setTaxRate(0, ethers.utils.parseUnits('0', DECIMALS))
 
 
   let value = ethers.utils.parseUnits('1000000', 0)
@@ -77,7 +77,7 @@ async function mockedUpgradableparseToken() {
 
 
 async function setTaxRate(p: string) {
-  await parseToken.connect(policyMaker).setTaxRate(ethers.utils.parseUnits(p, DECIMALS))
+  await parseToken.connect(policyMaker).setTaxRate(0, ethers.utils.parseUnits(p, DECIMALS))
 }
 
 async function printBalances() {
@@ -106,16 +106,16 @@ describe('parseToken: setTaxRate ', async function () {
   })
 
   it('setting raxRate by deployer (to be reverted)', async function () {
-    await expect(parseToken.connect(deployer).setTaxRate(ethers.utils.parseUnits("0.033", DECIMALS))).to.be.reverted
+    await expect(parseToken.connect(deployer).setTaxRate(0, ethers.utils.parseUnits("0.033", DECIMALS))).to.be.reverted
   })
 
   it('setting raxRate by standard user (to be reverted)', async function () {
-    await expect(parseToken.connect(A).setTaxRate(ethers.utils.parseUnits("0.033", DECIMALS))).to.be.reverted
+    await expect(parseToken.connect(A).setTaxRate(0, ethers.utils.parseUnits("0.033", DECIMALS))).to.be.reverted
   })
 
   it('setting raxRate by policyMaker', async function () {
-    await expect(parseToken.connect(policyMaker).setTaxRate(ethers.utils.parseUnits("0.033", DECIMALS))).not.to.be.reverted
-    expect(await parseToken.getTaxRate()).to.be.eq(ethers.utils.parseUnits("0.033", DECIMALS))
+    await expect(parseToken.connect(policyMaker).setTaxRate(0, ethers.utils.parseUnits("0.033", DECIMALS))).not.to.be.reverted
+    expect(await parseToken.taxRate()).to.be.eq(ethers.utils.parseUnits("0.033", DECIMALS))
   })
 
 

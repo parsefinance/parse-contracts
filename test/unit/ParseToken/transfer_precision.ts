@@ -84,7 +84,7 @@ async function exec() {
     },
   )
   await parseToken.connect(deployer).setPolicyMaker(deployer.getAddress())
-  await parseToken.connect(deployer).setTaxRate(0)
+  await parseToken.connect(deployer).setTaxRate(0, 0)
   let i = 0
   do {
     await parseToken.connect(deployer).rebase(i + 1, rebaseAmt)
