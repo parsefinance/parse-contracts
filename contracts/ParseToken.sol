@@ -15,13 +15,13 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     uint256 private constant TOTAL_SHARE =
         type(uint256).max - (type(uint256).max % INITIAL_PARSE_SUPPLY);
 
-    uint256 private constant MAX_SUPPLY = type(uint128).max; // (2^128) - 1
+    uint256 private constant MAX_SUPPLY = type(uint128).max;
     uint256 private _sharePerPARSE;
     uint256 private _totalPARSESupply;
 
-    uint256 private taxRate;
-    uint256 private taxExpirationTime;
-    uint256 private lastTimeTaxUpdated;
+    uint256 public taxRate;
+    uint256 public taxExpirationTime;
+    uint256 public lastTimeTaxUpdated;
 
     event LogRebase(uint256 indexed epoch, uint256 totalSupply);
     event LogPolicyMakerUpdated(address policyMaker);
@@ -46,7 +46,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         emit Transfer(address(0), owner(), _totalPARSESupply);
 
         taxRate = 0;
-        taxExpirationTime = 24 * 60 * 60; //dayINsec
+        taxExpirationTime = 26 * 60 * 60; //26 hours in sec
         lastTimeTaxUpdated = block.timestamp;
     }
 
@@ -62,9 +62,17 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         return taxRate;
     }
 
-    function setTaxRate(uint256 _taxRate) external onlyPolicyMaker {
-        taxRate = _taxRate;
+    function setTaxRate(uint256 taxRate_) external onlyPolicyMaker {
+        taxRate = taxRate_;
         lastTimeTaxUpdated = block.timestamp;
+    }
+
+    function setTaxExpirationTime(uint256 taxExpirationTime_)
+        external
+        onlyOwner
+    {
+        require(taxExpirationTime_ > 0);
+        taxExpirationTime = taxExpirationTime_;
     }
 
     function setPolicyMaker(address policyMaker_) external onlyOwner {
