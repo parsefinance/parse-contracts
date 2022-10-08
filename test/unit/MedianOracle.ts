@@ -151,94 +151,94 @@ describe('MedianOracle:addProvider:accessControl', async function () {
   })
 })
 
-// describe('MedianOracle:removeProvider', async function () {
-//   describe('when source is part of the whitelist', () => {
-//     before(async function () {
-//       payload = BigNumber.from('1000000000000000000')
-//       await setupContractsAndAccounts()
-//       await oracle.addProvider(await A.getAddress())
-//       await oracle.addProvider(await B.getAddress())
-//       await oracle.addProvider(await C.getAddress())
-//       await oracle.addProvider(await D.getAddress())
-//       expect(await oracle.providersSize()).to.eq(BigNumber.from(4))
-//     })
-//     it('should emit ProviderRemoved message', async function () {
-//       expect(await oracle.removeProvider(await B.getAddress()))
-//         .to.emit(oracle, 'ProviderRemoved')
-//         .withArgs(await B.getAddress())
-//     })
-//     it('should remove source from the whitelist', async function () {
-//       expect(await oracle.providersSize()).to.eq(BigNumber.from(3))
-//       await expect(oracle.connect(B).pushReport(payload)).to.be.reverted
-//       await oracle.connect(D).pushReport(payload)
-//     })
-//   })
-// })
+describe('MedianOracle:removeProvider', async function () {
+  describe('when source is part of the whitelist', () => {
+    before(async function () {
+      payload = BigNumber.from('1000000000000000000')
+      await setupContractsAndAccounts()
+      await oracle.addProvider(await A.getAddress())
+      await oracle.addProvider(await B.getAddress())
+      await oracle.addProvider(await C.getAddress())
+      await oracle.addProvider(await D.getAddress())
+      expect(await oracle.providersSize()).to.eq(BigNumber.from(4))
+    })
+    it('should emit ProviderRemoved message', async function () {
+      expect(await oracle.removeProvider(await B.getAddress()))
+        .to.emit(oracle, 'ProviderRemoved')
+        .withArgs(await B.getAddress())
+    })
+    it('should remove source from the whitelist', async function () {
+      expect(await oracle.providersSize()).to.eq(BigNumber.from(3))
+      await expect(oracle.connect(B).pushReport(payload)).to.be.reverted
+      await oracle.connect(D).pushReport(payload)
+    })
+  })
+})
 
-// describe('MedianOracle:removeProvider', async function () {
-//   beforeEach(async function () {
-//     await setupContractsAndAccounts()
-//     await oracle.addProvider(await A.getAddress())
-//     await oracle.addProvider(await B.getAddress())
-//     await oracle.addProvider(await C.getAddress())
-//     await oracle.addProvider(await D.getAddress())
-//     expect(await oracle.providersSize()).to.eq(BigNumber.from(4))
-//   })
-//   it('Remove last element', async function () {
-//     await oracle.removeProvider(await D.getAddress())
-//     expect(await oracle.providersSize()).to.eq(BigNumber.from(3))
-//     expect(await oracle.providers(0)).to.eq(await A.getAddress())
-//     expect(await oracle.providers(1)).to.eq(await B.getAddress())
-//     expect(await oracle.providers(2)).to.eq(await C.getAddress())
-//   })
+describe('MedianOracle:removeProvider', async function () {
+  beforeEach(async function () {
+    await setupContractsAndAccounts()
+    await oracle.addProvider(await A.getAddress())
+    await oracle.addProvider(await B.getAddress())
+    await oracle.addProvider(await C.getAddress())
+    await oracle.addProvider(await D.getAddress())
+    expect(await oracle.providersSize()).to.eq(BigNumber.from(4))
+  })
+  it('Remove last element', async function () {
+    await oracle.removeProvider(await D.getAddress())
+    expect(await oracle.providersSize()).to.eq(BigNumber.from(3))
+    expect(await oracle.providers(0)).to.eq(await A.getAddress())
+    expect(await oracle.providers(1)).to.eq(await B.getAddress())
+    expect(await oracle.providers(2)).to.eq(await C.getAddress())
+  })
 
-//   it('Remove middle element', async function () {
-//     await oracle.removeProvider(await B.getAddress())
-//     expect(await oracle.providersSize()).to.eq(BigNumber.from(3))
-//     expect(await oracle.providers(0)).to.eq(await A.getAddress())
-//     expect(await oracle.providers(1)).to.eq(await D.getAddress())
-//     expect(await oracle.providers(2)).to.eq(await C.getAddress())
-//   })
+  it('Remove middle element', async function () {
+    await oracle.removeProvider(await B.getAddress())
+    expect(await oracle.providersSize()).to.eq(BigNumber.from(3))
+    expect(await oracle.providers(0)).to.eq(await A.getAddress())
+    expect(await oracle.providers(1)).to.eq(await D.getAddress())
+    expect(await oracle.providers(2)).to.eq(await C.getAddress())
+  })
 
-//   it('Remove only element', async function () {
-//     await oracle.removeProvider(await A.getAddress())
-//     await oracle.removeProvider(await B.getAddress())
-//     await oracle.removeProvider(await C.getAddress())
-//     expect(await oracle.providersSize()).to.eq(BigNumber.from(1))
-//     expect(await oracle.providers(0)).to.eq(await D.getAddress())
-//     await oracle.removeProvider(await D.getAddress())
-//     expect(await oracle.providersSize()).to.eq(BigNumber.from(0))
-//   })
-// })
+  it('Remove only element', async function () {
+    await oracle.removeProvider(await A.getAddress())
+    await oracle.removeProvider(await B.getAddress())
+    await oracle.removeProvider(await C.getAddress())
+    expect(await oracle.providersSize()).to.eq(BigNumber.from(1))
+    expect(await oracle.providers(0)).to.eq(await D.getAddress())
+    await oracle.removeProvider(await D.getAddress())
+    expect(await oracle.providersSize()).to.eq(BigNumber.from(0))
+  })
+})
 
-// describe('MedianOracle:removeProvider', async function () {
-//   it('when provider is NOT part of the whitelist', async function () {
-//     await setupContractsAndAccounts()
-//     await oracle.addProvider(await A.getAddress())
-//     await oracle.addProvider(await B.getAddress())
-//     expect(await oracle.providersSize()).to.eq(BigNumber.from(2))
-//     await oracle.removeProvider(await C.getAddress())
-//     expect(await oracle.providersSize()).to.eq(BigNumber.from(2))
-//     expect(await oracle.providers(0)).to.eq(await A.getAddress())
-//     expect(await oracle.providers(1)).to.eq(await B.getAddress())
-//   })
-// })
+describe('MedianOracle:removeProvider', async function () {
+  it('when provider is NOT part of the whitelist', async function () {
+    await setupContractsAndAccounts()
+    await oracle.addProvider(await A.getAddress())
+    await oracle.addProvider(await B.getAddress())
+    expect(await oracle.providersSize()).to.eq(BigNumber.from(2))
+    await oracle.removeProvider(await C.getAddress())
+    expect(await oracle.providersSize()).to.eq(BigNumber.from(2))
+    expect(await oracle.providers(0)).to.eq(await A.getAddress())
+    expect(await oracle.providers(1)).to.eq(await B.getAddress())
+  })
+})
 
-// describe('MedianOracle:removeProvider:accessControl', async function () {
-//   beforeEach(async function () {
-//     await setupContractsAndAccounts()
-//     await oracle.addProvider(await A.getAddress())
-//   })
+describe('MedianOracle:removeProvider:accessControl', async function () {
+  beforeEach(async function () {
+    await setupContractsAndAccounts()
+    await oracle.addProvider(await A.getAddress())
+  })
 
-//   it('should be callable by owner', async function () {
-//     await oracle.removeProvider(await A.getAddress())
-//   })
+  it('should be callable by owner', async function () {
+    await oracle.removeProvider(await A.getAddress())
+  })
 
-//   it('should NOT be callable by non-owner', async function () {
-//     await expect(oracle.connect(A).removeProvider(await A.getAddress())).to.be
-//       .reverted
-//   })
-// })
+  it('should NOT be callable by non-owner', async function () {
+    await expect(oracle.connect(A).removeProvider(await A.getAddress())).to.be
+      .reverted
+  })
+})
 
 describe('MedianOracle:getData', async function () {
   before(async function () {
@@ -546,10 +546,10 @@ describe('MedianOracle:PurgeReports', async function () {
       .to.emit(callerContract, 'ReturnValueUInt256Bool')
       .withArgs(BigNumber.from('1300000000000000000'), true)
   })
-  // it('cannot purge a non-whitelisted provider', async function () {
-  //   await expect(oracle.connect(B).purgeReports()).to.be.reverted
-  //   await oracle.connect(A).purgeReports()
-  //   await oracle.removeProvider(await A.getAddress())
-  //   await expect(oracle.connect(A).purgeReports()).to.be.reverted
-  // })
+  it('cannot purge a non-whitelisted provider', async function () {
+    await expect(oracle.connect(B).purgeReports()).to.be.reverted
+    await oracle.connect(A).purgeReports()
+    await oracle.removeProvider(await A.getAddress())
+    await expect(oracle.connect(A).purgeReports()).to.be.reverted
+  })
 })

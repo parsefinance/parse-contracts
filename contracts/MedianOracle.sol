@@ -158,20 +158,19 @@ contract MedianOracle is Initializable, OwnableUpgradeable, IOracle {
         emit ProviderAdded(provider);
     }
 
-    // TODO: rewrite removeProvider such that it doesn't change providers.length
-    // function removeProvider(address provider) external onlyOwner {
-    //     delete providerReports[provider];
-    //     for (uint256 i = 0; i < providers.length; i++) {
-    //         if (providers[i] == provider) {
-    //             if (i + 1 != providers.length) {
-    //                 providers[i] = providers[providers.length - 1];
-    //             }
-    //             delete providers[providers.length];
-    //             emit ProviderRemoved(provider);
-    //             break;
-    //         }
-    //     }
-    // }
+    function removeProvider(address provider) external onlyOwner {
+        delete providerReports[provider];
+        for (uint256 i = 0; i < providers.length; i++) {
+            if (providers[i] == provider) {
+                if (i + 1 != providers.length) {
+                    providers[i] = providers[providers.length - 1];
+                }
+                providers.pop();
+                emit ProviderRemoved(provider);
+                break;
+            }
+        }
+    }
 
     function providersSize() external view returns (uint256) {
         return providers.length;
