@@ -23,12 +23,14 @@ async function deploy_contract(contractName: string, initializer: string, params
     // console.log('ParseToken deployed to:', box.address);
     return contract;
 }
-async function config_contracts(parseToken:Contract,policyMaker:Contract,medianOracle:Contract,orchestrator:Contract){
-    await parseToken.connect(DEPLOYER).setPolicyMaker(policyMaker.address);
-    // console.log(await parseToken.policyMaker());
+async function config_contracts(parseToken:Contract,policyMaker:Contract,cpiOracle:Contract,marketOracle:Contract,orchestrator:Contract){
+    let tx = await parseToken.connect(DEPLOYER).setPolicyMaker(policyMaker.address);
+    console.log(tx);
     await parseToken.connect(DEPLOYER).setTreasuryAddress(DEPLOYER.address);
-    await policyMaker.connect(DEPLOYER).setCpiOracle(DEPLOYER.address);
-    await policyMaker.connect(DEPLOYER).setMarketOracle(DEPLOYER.address);
+    await policyMaker.connect(DEPLOYER).setCpiOracle(cpiOracle.address);
+    await cpiOracle.connect(DEPLOYER).addProvider(DEPLOYER.address);
+    await marketOracle.connect(DEPLOYER).addProvider(DEPLOYER.address);
+    await policyMaker.connect(DEPLOYER).setMarketOracle(marketOracle.address);
     await policyMaker.connect(DEPLOYER).setOrchestrator(orchestrator.address);
 
 }
@@ -43,9 +45,12 @@ async function main() {
     process.stdout.write("Deploying PolicyMaker ");
     let policyMaker = await deploy_contract('PolicyMaker','initialize(address,uint256)',[parseToken.address,BASE_CPI]);
     console.log(`\x1b[32m Done \x1b[0m`);
-    // deploy MedianOracle
-    process.stdout.write("Deploying MedianOracle ");
-    let medianOracle = await deploy_contract('MedianOracle','initialize(uint256,uint256,uint256)',[RATE_REPORT_EXPIRATION_SEC,RATE_REPORT_DELAY_SEC,RATE_MIN_PROVIDERS]);
+    // deploy marketOracle
+    process.stdout.write("Deploying MarketOracle ");
+    let marketOracle = await deploy_contract('MedianOracle','initialize(uint256,uint256,uint256)',[RATE_REPORT_EXPIRATION_SEC,RATE_REPORT_DELAY_SEC,RATE_MIN_PROVIDERS]);
+    console.log(`\x1b[32m Done \x1b[0m`);
+    process.stdout.write("Deploying CpiOracle ");
+    let cpiOracle = await deploy_contract('MedianOracle','initialize(uint256,uint256,uint256)',[RATE_REPORT_EXPIRATION_SEC,RATE_REPORT_DELAY_SEC,RATE_MIN_PROVIDERS]);
     console.log(`\x1b[32m Done \x1b[0m`);
     //deploy Orchestrator
     process.stdout.write("Deploying Orchestrator ");
@@ -53,9 +58,10 @@ async function main() {
     console.log(`\x1b[32m Done \x1b[0m`);
 
     // config contracts
-    await config_contracts(parseToken,policyMaker,medianOracle,orchestrator);
-
-    console.log(`ParseToken: ${parseToken.address}\nPolicyMaker: ${policyMaker.address}\nMedianOracle: ${medianOracle.address}\nOrchestrator: ${orchestrator.address}`)
+    process.stdout.write("Configuring contracts ... ");
+    await config_contracts(parseToken,policyMaker,marketOracle,cpiOracle,orchestrator);
+    console.log(`\x1b[32m Done \x1b[0m`);
+    console.log(`ParseToken: ${parseToken.address}\nPolicyMaker: ${policyMaker.address}\nmarketOracle: ${marketOracle.address}\ncpiOracle: ${cpiOracle.address}\nOrchestrator: ${orchestrator.address}`)
     
 
 }
