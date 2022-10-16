@@ -29,7 +29,10 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     event treasuryUpdated(address oldTreasury, address newTreasury);
 
     modifier onlyPolicyMaker() {
-        require(msg.sender == policyMaker);
+        require(
+            msg.sender == policyMaker,
+            "only the PolicyMaker should call this."
+        );
         _;
     }
 
@@ -72,7 +75,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         external
         onlyOwner
     {
-        require(taxExpirationTime_ > 0);
+        require(taxExpirationTime_ > 0, "taxExpirationTime_ > 0");
         taxExpirationTime = taxExpirationTime_;
     }
 
@@ -82,7 +85,10 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     }
 
     function setTreasuryAddress(address _treasury) external onlyOwner {
-        require(treasury != _treasury);
+        require(
+            treasury != _treasury,
+            "a new address for treasury should be provided."
+        );
 
         treasury = _treasury;
         emit treasuryUpdated(treasury, _treasury);
@@ -131,7 +137,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     }
 
     function _payTax(address seller, uint256 amount) private {
-        require(!taxExpired());
+        require(!taxExpired(), "tax-rate is Expired!");
         if (taxRate > 0) {
             uint256 share = amount * _sharePerPARSE;
             uint256 taxValue = (share * taxRate) / (10**DECIMALS);

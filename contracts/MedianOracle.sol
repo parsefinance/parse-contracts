@@ -40,8 +40,11 @@ contract MedianOracle is Initializable, OwnableUpgradeable, IOracle {
         uint256 minimumProviders_
     ) public initializer {
         __Ownable_init();
-        require(reportExpirationTimeSec_ <= MAX_REPORT_EXPIRATION_TIME);
-        require(minimumProviders_ > 0);
+        require(
+            reportExpirationTimeSec_ <= MAX_REPORT_EXPIRATION_TIME,
+            "reportExpirationTimeSec_ <= MAX_REPORT_EXPIRATION_TIME"
+        );
+        require(minimumProviders_ > 0, "minimumProviders_ > 0");
         reportExpirationTimeSec = reportExpirationTimeSec_;
         reportDelaySec = reportDelaySec_;
         minimumProviders = minimumProviders_;
@@ -52,7 +55,10 @@ contract MedianOracle is Initializable, OwnableUpgradeable, IOracle {
         external
         onlyOwner
     {
-        require(reportExpirationTimeSec_ <= MAX_REPORT_EXPIRATION_TIME);
+        require(
+            reportExpirationTimeSec_ <= MAX_REPORT_EXPIRATION_TIME,
+            "reportExpirationTimeSec_ <= MAX_REPORT_EXPIRATION_TIME"
+        );
         reportExpirationTimeSec = reportExpirationTimeSec_;
     }
 
@@ -61,7 +67,7 @@ contract MedianOracle is Initializable, OwnableUpgradeable, IOracle {
     }
 
     function setMinimumProviders(uint256 minimumProviders_) external onlyOwner {
-        require(minimumProviders_ > 0);
+        require(minimumProviders_ > 0, "minimumProviders_ > 0");
         minimumProviders = minimumProviders_;
     }
 
@@ -73,13 +79,16 @@ contract MedianOracle is Initializable, OwnableUpgradeable, IOracle {
             reports[1].timestamp
         ];
 
-        require(timestamps[0] > 0);
+        require(timestamps[0] > 0, "timestamps[0] > 0");
 
         uint8 index_recent = timestamps[0] >= timestamps[1] ? 0 : 1;
         uint8 index_past = 1 - index_recent;
 
         // Check that the push is not too soon after the last one.
-        require((timestamps[index_recent] + reportDelaySec) <= block.timestamp);
+        require(
+            (timestamps[index_recent] + reportDelaySec) <= block.timestamp,
+            "the push is not too soon after the last one."
+        );
 
         reports[index_past].timestamp = block.timestamp;
         reports[index_past].payload = payload;
@@ -89,7 +98,10 @@ contract MedianOracle is Initializable, OwnableUpgradeable, IOracle {
 
     function purgeReports() external {
         address providerAddress = msg.sender;
-        require(providerReports[providerAddress][0].timestamp > 0);
+        require(
+            providerReports[providerAddress][0].timestamp > 0,
+            "providerReports[providerAddress][0].timestamp > 0"
+        );
         providerReports[providerAddress][0].timestamp = 1;
         providerReports[providerAddress][1].timestamp = 1;
     }

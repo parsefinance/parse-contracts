@@ -123,7 +123,8 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         // This comparison also ensures there is no reentrancy.
         require(
             (lastRebaseOrTaxTimestampSec + minRebaseOrTaxTimeIntervalSec) <
-                block.timestamp
+                block.timestamp,
+            "there is no reentrancy!"
         );
 
         lastRebaseOrTaxTimestampSec =
@@ -206,12 +207,11 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         uint256 targetRate,
         uint256 cpi
     ) private {
-        // require(inRebaseOrTaxWindow());
-
         // This comparison also ensures there is no reentrancy.
         require(
             (lastRebaseOrTaxTimestampSec + minRebaseOrTaxTimeIntervalSec) <
-                block.timestamp
+                block.timestamp,
+            "there is no reentrancy!"
         );
 
         lastRebaseOrTaxTimestampSec =
@@ -296,15 +296,15 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         uint256 _taxStepThreshold,
         uint256 _taxValue
     ) external onlyOwner {
-        require(_taxStepThreshold > 0);
-        require(_taxThetaThreshold > 0);
+        require(_taxStepThreshold > 0, "_taxStepThreshold > 0");
+        require(_taxThetaThreshold > 0, "_taxThetaThreshold > 0");
         taxThetaThreshold = _taxThetaThreshold;
         taxStepThreshold = _taxStepThreshold;
         taxValue = _taxValue;
     }
 
     function setTaxStepThreshold(uint256 _taxStepThreshold) external onlyOwner {
-        require(_taxStepThreshold > 0);
+        require(_taxStepThreshold > 0, "_taxStepThreshold > 0");
 
         taxStepThreshold = _taxStepThreshold;
     }
@@ -313,7 +313,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         external
         onlyOwner
     {
-        require(_taxThetaThreshold > 0);
+        require(_taxThetaThreshold > 0, "_taxThetaThreshold > 0");
         taxThetaThreshold = _taxThetaThreshold;
     }
 
@@ -349,21 +349,27 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         external
         onlyOwner
     {
-        require(rebaseFunctionGrowth_ >= 0);
+        require(rebaseFunctionGrowth_ >= 0, "rebaseFunctionGrowth_ >= 0");
         rebaseFunctionGrowth = rebaseFunctionGrowth_;
     }
 
     function setRebaseFunctionLowerPercentage(
         int256 rebaseFunctionLowerPercentage_
     ) external onlyOwner {
-        require(rebaseFunctionLowerPercentage_ <= 0);
+        require(
+            rebaseFunctionLowerPercentage_ <= 0,
+            "rebaseFunctionLowerPercentage_ <= 0"
+        );
         rebaseFunctionLowerPercentage = rebaseFunctionLowerPercentage_;
     }
 
     function setRebaseFunctionUpperPercentage(
         int256 rebaseFunctionUpperPercentage_
     ) external onlyOwner {
-        require(rebaseFunctionUpperPercentage_ >= 0);
+        require(
+            rebaseFunctionUpperPercentage_ >= 0,
+            "rebaseFunctionUpperPercentage_ >= 0"
+        );
         rebaseFunctionUpperPercentage = rebaseFunctionUpperPercentage_;
     }
 
@@ -400,8 +406,14 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         uint256 rebaseOrTaxWindowOffsetSec_,
         uint256 rebaseOrTaxWindowLengthSec_
     ) external onlyOwner {
-        require(minRebaseOrTaxTimeIntervalSec_ > 0);
-        require(rebaseOrTaxWindowOffsetSec_ < minRebaseOrTaxTimeIntervalSec_);
+        require(
+            minRebaseOrTaxTimeIntervalSec_ > 0,
+            "minRebaseOrTaxTimeIntervalSec_ > 0"
+        );
+        require(
+            rebaseOrTaxWindowOffsetSec_ < minRebaseOrTaxTimeIntervalSec_,
+            "rebaseOrTaxWindowOffsetSec_ < minRebaseOrTaxTimeIntervalSec_"
+        );
 
         minRebaseOrTaxTimeIntervalSec = minRebaseOrTaxTimeIntervalSec_;
         rebaseOrTaxWindowOffsetSec = rebaseOrTaxWindowOffsetSec_;

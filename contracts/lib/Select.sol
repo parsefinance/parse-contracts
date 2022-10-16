@@ -18,7 +18,10 @@ library Select {
         pure
         returns (uint256)
     {
-        require(size > 0 && array.length >= size);
+        require(
+            size > 0 && array.length >= size,
+            "size > 0 and length of array >= size"
+        );
         for (uint256 i = 1; i < size; i++) {
             for (uint256 j = i; j > 0 && array[j - 1] > array[j]; j--) {
                 uint256 tmp = array[j];

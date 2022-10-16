@@ -27,7 +27,10 @@ contract Orchestrator is Initializable, OwnableUpgradeable {
     }
 
     function rebaseOrTax() external {
-        require(msg.sender == tx.origin);
+        require(
+            msg.sender == tx.origin,
+            "contracts should not call this function."
+        );
         policyMaker.rebaseOrTax();
         for (uint256 i = 0; i < transactions.length; i++) {
             Transaction storage t = transactions[i];

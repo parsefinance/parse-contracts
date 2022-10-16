@@ -106,7 +106,7 @@ library SafeMathInt {
             1021897148654116678
         ];
         int256 whole = div(exp, one);
-        require(whole <= 100);
+        require(whole <= 100, "2^exp is too large or too small");
         int256 result = mul(int256(uint256(1) << uint256(whole)), one);
         int256 remaining = sub(exp, mul(whole, one));
 
