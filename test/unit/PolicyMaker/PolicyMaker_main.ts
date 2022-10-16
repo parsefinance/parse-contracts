@@ -174,7 +174,7 @@ describe('UFragmentsPolicy:initialize', async function () {
       )
     })
     it('epoch', async function () {
-      expect(await policyMaker.rebaseEpoch()).to.eq(0)
+      expect(await policyMaker.epoch()).to.eq(0)
     })
 
     it('rebaseOrTaxWindowOffsetSec', async function () {
@@ -871,7 +871,7 @@ describe('UFragmentsPolicy:Rebase', async function () {
         .setTimingParameters(60, 0, 60)
       await increaseTime(60)
       await policyMaker.connect(orchestrator).rebaseOrTax()
-      prevEpoch = await policyMaker.rebaseEpoch()
+      prevEpoch = await policyMaker.epoch()
       prevTime = await policyMaker.lastRebaseOrTaxTimestampSec()
       await mockExternalData(INITIAL_RATE_60P_MORE, INITIAL_CPI, 1010)
       await increaseTime(60)
@@ -879,7 +879,7 @@ describe('UFragmentsPolicy:Rebase', async function () {
 
     it('should increment epoch', async function () {
       await policyMaker.connect(orchestrator).rebaseOrTax()
-      expect(await policyMaker.rebaseEpoch()).to.eq(prevEpoch.add(1))
+      expect(await policyMaker.epoch()).to.eq(prevEpoch.add(1))
     })
 
 

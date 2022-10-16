@@ -33,8 +33,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
     uint256 public lastRebaseOrTaxTimestampSec;
     uint256 public rebaseOrTaxWindowOffsetSec;
     uint256 public rebaseOrTaxWindowLengthSec;
-    uint256 public rebaseEpoch;
-    uint256 public taxEpoch;
+    uint256 public epoch;
     uint256 public baseCpi;
     uint256 public taxStepThreshold;
     uint256 public taxThetaThreshold;
@@ -80,8 +79,8 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         rebaseOrTaxWindowLengthSec = 20 minutes;
 
         lastRebaseOrTaxTimestampSec = 0;
-        rebaseEpoch = 0;
-        taxEpoch = 0;
+        epoch = 0;
+        epoch = 0;
 
         parseToken = parseToken_;
         baseCpi = baseCpi_;
@@ -145,8 +144,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         taxRate = taxRate / (10**decimal_dif);
 
         parseToken.setTaxRate(taxRate);
-        taxEpoch++;
-        emit LogTaxChanged(taxEpoch, exchangeRate, taxRate, block.timestamp); // exchangeRate is divided by targetRate
+        emit LogTaxChanged(epoch, exchangeRate, taxRate, block.timestamp); // exchangeRate is divided by targetRate
     }
 
     function computeRebasePercentage(
@@ -221,8 +219,6 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
             (block.timestamp % minRebaseOrTaxTimeIntervalSec) +
             rebaseOrTaxWindowOffsetSec;
 
-        rebaseEpoch++;
-
         if (exchangeRate > MAX_RATE) {
             exchangeRate = MAX_RATE;
         }
@@ -236,19 +232,14 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
             supplyDelta = int256(MAX_SUPPLY - parseToken.totalSupply());
         }
 
-        uint256 supplyAfterRebase = parseToken.rebase(rebaseEpoch, supplyDelta);
+        uint256 supplyAfterRebase = parseToken.rebase(epoch, supplyDelta);
         assert(supplyAfterRebase <= MAX_SUPPLY);
-        emit LogRebase(
-            rebaseEpoch,
-            exchangeRate,
-            cpi,
-            supplyDelta,
-            block.timestamp
-        );
+        emit LogRebase(epoch, exchangeRate, cpi, supplyDelta, block.timestamp);
     }
 
     function rebaseOrTax() external onlyOrchestrator {
         require(inRebaseOrTaxWindow(), "not in rebaseOrTax window");
+
         uint256 cpi;
         bool cpiValid;
         (cpi, cpiValid) = cpiOracle.getData();
@@ -261,7 +252,8 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         (exchangeRate, rateValid) = marketOracle.getData();
         require(rateValid, "exchangeRate not valid");
 
-        // uint256 window = withinDeviationThreshold(exchangeRate,targetRate);\
+        epoch++;
+
         uint256 absoluterebaseUpperThreshold = (targetRate *
             rebaseUpperThreshold) / (10**DECIMALS);
 
@@ -292,8 +284,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         } else {
             // tax zero
             parseToken.setTaxRate(0);
-            taxEpoch++;
-            emit LogTaxChanged(taxEpoch, exchangeRate, 0, block.timestamp);
+            emit LogTaxChanged(epoch, exchangeRate, 0, block.timestamp);
             return;
         }
     }

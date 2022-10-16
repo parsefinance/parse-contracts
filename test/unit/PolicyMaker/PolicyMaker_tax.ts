@@ -277,17 +277,17 @@ describe('PolicyMaker: epoch of tax', async function () {
   })
 
 
-  it('taxEpoch should be zero at first', async function () {
-    expect(await policyMaker.taxEpoch()).to.eq(0)
+  it('epoch should be zero at first', async function () {
+    expect(await policyMaker.epoch()).to.eq(0)
   })
 
-  it('should increment taxEpoch', async function () {
+  it('should increment epoch', async function () {
     await setPrice('0.95');
     await setTaxParameters(toBN('0.03'), toBN('0.1'), toBN('0.2')); // theta, s, v
 
     await policyMaker.connect(orchestrator).rebaseOrTax()
 
-    expect(await policyMaker.taxEpoch()).to.eq(1)
+    expect(await policyMaker.epoch()).to.eq(1)
 
   })
 
