@@ -265,6 +265,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         ) {
             // rebase
             rebase(exchangeRate, targetRate, cpi);
+            parseToken.setTaxRate(0);
             return;
         } else if (
             (exchangeRate < targetRate) &&
@@ -280,6 +281,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         ) {
             // rebase
             rebase(exchangeRate, targetRate, cpi);
+            parseToken.setTaxRate(0);
             return;
         } else {
             // tax zero
