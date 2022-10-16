@@ -106,7 +106,7 @@ async function mockedUpgradablePolicyMakerWithOpenRebaseWindow() {
     mockCpiOracle,
     policyMaker,
   } = await mockedUpgradablePolicyMaker()
-  await policyMaker.connect(deployer).setRebaseTimingParameters(60, 0, 60)
+  await policyMaker.connect(deployer).setTimingParameters(60, 0, 60)
   return {
     deployer,
     user,

@@ -402,7 +402,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
               the rebase interval, where the rebase window begins.
      * @param rebaseOrTaxWindowLengthSec_ The length of the rebase window in seconds.
      */
-    function setRebaseTimingParameters(
+    function setTimingParameters(
         uint256 minRebaseOrTaxTimeIntervalSec_,
         uint256 rebaseOrTaxWindowOffsetSec_,
         uint256 rebaseOrTaxWindowLengthSec_

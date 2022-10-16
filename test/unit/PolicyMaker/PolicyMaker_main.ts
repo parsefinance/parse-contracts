@@ -98,7 +98,7 @@ async function mockedUpgradablePolicyWithOpenRebaseWindow() {
     mockCpiOracle,
     policyMaker,
   } = await mockedUpgradablePolicy()
-  await policyMaker.connect(deployer).setRebaseTimingParameters(60, 0, 60)
+  await policyMaker.connect(deployer).setTimingParameters(60, 0, 60)
   await policyMaker.connect(deployer).setTaxParameters(toBN('0.01'), toBN('0.01'), toBN('0.01'));
   return {
     deployer,
@@ -488,7 +488,7 @@ describe('UFragments:setRebaseFunctionUpperPercentage:accessControl', function (
   })
 })
 
-describe('UFragmentsPolicy:setRebaseTimingParameters', async function () {
+describe('UFragmentsPolicy:setTimingParameters', async function () {
   before('setup UFragmentsPolicy contract', async function () {
     ; ({
       deployer,
@@ -504,7 +504,7 @@ describe('UFragmentsPolicy:setRebaseTimingParameters', async function () {
   describe('when interval=0', function () {
     it('should fail', async function () {
       await expect(
-        policyMaker.connect(deployer).setRebaseTimingParameters(0, 0, 0),
+        policyMaker.connect(deployer).setTimingParameters(0, 0, 0),
       ).to.be.reverted
     })
   })
@@ -514,16 +514,16 @@ describe('UFragmentsPolicy:setRebaseTimingParameters', async function () {
       await expect(
         policyMaker
           .connect(deployer)
-          .setRebaseTimingParameters(300, 3600, 300),
+          .setTimingParameters(300, 3600, 300),
       ).to.be.reverted
     })
   })
 
   describe('when params are valid', function () {
-    it('should setRebaseTimingParameters', async function () {
+    it('should setTimingParameters', async function () {
       await policyMaker
         .connect(deployer)
-        .setRebaseTimingParameters(600, 60, 300)
+        .setTimingParameters(600, 60, 300)
       expect(await policyMaker.minRebaseOrTaxTimeIntervalSec()).to.eq(600)
       expect(await policyMaker.rebaseOrTaxWindowOffsetSec()).to.eq(60)
       expect(await policyMaker.rebaseOrTaxWindowLengthSec()).to.eq(300)
@@ -531,7 +531,7 @@ describe('UFragmentsPolicy:setRebaseTimingParameters', async function () {
   })
 })
 
-describe('UFragments:setRebaseTimingParameters:accessControl', function () {
+describe('UFragments:setTimingParameters:accessControl', function () {
   before('setup UFragmentsPolicy contract', async () => {
     ; ({
       deployer,
@@ -548,13 +548,13 @@ describe('UFragments:setRebaseTimingParameters:accessControl', function () {
     await expect(
       policyMaker
         .connect(deployer)
-        .setRebaseTimingParameters(600, 60, 300),
+        .setTimingParameters(600, 60, 300),
     ).to.not.be.reverted
   })
 
   it('should NOT be callable by non-owner', async function () {
     await expect(
-      policyMaker.connect(user).setRebaseTimingParameters(600, 60, 300),
+      policyMaker.connect(user).setTimingParameters(600, 60, 300),
     ).to.be.reverted
   })
 })
@@ -634,7 +634,7 @@ describe('UFragmentsPolicy:Rebase', async function () {
 //     before(async function () {
 //       await policyMaker
 //         .connect(deployer)
-//         .setRebaseTimingParameters(60, 0, 60)
+//         .setTimingParameters(60, 0, 60)
 //     })
 
 //     it('should return 0', async function () {
@@ -868,7 +868,7 @@ describe('UFragmentsPolicy:Rebase', async function () {
       await mockExternalData(INITIAL_RATE_30P_MORE, INITIAL_CPI, 1000)
       await policyMaker
         .connect(deployer)
-        .setRebaseTimingParameters(60, 0, 60)
+        .setTimingParameters(60, 0, 60)
       await increaseTime(60)
       await policyMaker.connect(orchestrator).rebaseOrTax()
       prevEpoch = await policyMaker.rebaseEpoch()
@@ -1116,7 +1116,7 @@ describe('UFragmentsPolicy:Rebase', async function () {
     } = await loadFixture(mockedUpgradablePolicy))
     await policyMaker
       .connect(deployer)
-      .setRebaseTimingParameters(86400, 72000, 900)
+      .setTimingParameters(86400, 72000, 900)
     await mockExternalData(INITIAL_RATE_30P_MORE, INITIAL_CPI, 1000)
     rbTime = await policyMaker.rebaseOrTaxWindowOffsetSec()
     rbWindow = await policyMaker.rebaseOrTaxWindowLengthSec()
