@@ -80,7 +80,6 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
 
         lastRebaseOrTaxTimestampSec = 0;
         epoch = 0;
-        epoch = 0;
 
         parseToken = parseToken_;
         baseCpi = baseCpi_;
