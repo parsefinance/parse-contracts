@@ -144,7 +144,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         uint256 decimal_dif = DECIMALS - parseToken.DECIMALS();
         taxRate = taxRate / (10**decimal_dif);
 
-        parseToken.setTaxRate(taxRate);
+        parseToken.setTaxRate(epoch, taxRate);
         emit LogTaxChanged(epoch, exchangeRate, taxRate, block.timestamp); // exchangeRate is divided by targetRate
     }
 
@@ -265,7 +265,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         ) {
             // rebase
             rebase(exchangeRate, targetRate, cpi);
-            parseToken.setTaxRate(0);
+            parseToken.setTaxRate(epoch, 0);
             return;
         } else if (
             (exchangeRate < targetRate) &&
@@ -281,11 +281,11 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         ) {
             // rebase
             rebase(exchangeRate, targetRate, cpi);
-            parseToken.setTaxRate(0);
+            parseToken.setTaxRate(epoch, 0);
             return;
         } else {
             // tax zero
-            parseToken.setTaxRate(0);
+            parseToken.setTaxRate(epoch, 0);
             emit LogTaxChanged(epoch, exchangeRate, 0, block.timestamp);
             return;
         }
