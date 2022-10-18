@@ -119,18 +119,6 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
     }
 
     function imposeTax(uint256 exchangeRate, uint256 targetRate) private {
-        // This comparison also ensures there is no reentrancy.
-        require(
-            (lastRebaseOrTaxTimestampSec + minRebaseOrTaxTimeIntervalSec) <
-                block.timestamp,
-            "there is no reentrancy!"
-        );
-
-        lastRebaseOrTaxTimestampSec =
-            block.timestamp -
-            (block.timestamp % minRebaseOrTaxTimeIntervalSec) +
-            rebaseOrTaxWindowOffsetSec;
-
         uint256 normalizedRate = (exchangeRate * (10**DECIMALS)) / (targetRate);
         uint256 taxRate = computeTaxRate(
             normalizedRate,
@@ -206,18 +194,6 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         uint256 targetRate,
         uint256 cpi
     ) private {
-        // This comparison also ensures there is no reentrancy.
-        require(
-            (lastRebaseOrTaxTimestampSec + minRebaseOrTaxTimeIntervalSec) <
-                block.timestamp,
-            "there is no reentrancy!"
-        );
-
-        lastRebaseOrTaxTimestampSec =
-            block.timestamp -
-            (block.timestamp % minRebaseOrTaxTimeIntervalSec) +
-            rebaseOrTaxWindowOffsetSec;
-
         if (exchangeRate > MAX_RATE) {
             exchangeRate = MAX_RATE;
         }
@@ -238,6 +214,18 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
 
     function rebaseOrTax() external onlyOrchestrator {
         require(inRebaseOrTaxWindow(), "not in rebaseOrTax window");
+
+        // This comparison also ensures there is no reentrancy.
+        require(
+            (lastRebaseOrTaxTimestampSec + minRebaseOrTaxTimeIntervalSec) <
+                block.timestamp,
+            "there is a reentrancy!"
+        );
+
+        lastRebaseOrTaxTimestampSec =
+            block.timestamp -
+            (block.timestamp % minRebaseOrTaxTimeIntervalSec) +
+            rebaseOrTaxWindowOffsetSec;
 
         uint256 cpi;
         bool cpiValid;
