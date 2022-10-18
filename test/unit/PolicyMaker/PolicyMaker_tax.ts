@@ -118,13 +118,13 @@ async function mockedUpgradablePolicyMakerWithOpenRebaseWindow() {
   }
 }
 async function setPrice(p: string) {
-  let DECIMALS = await policyMaker.DECIMALS()
+  let DECIMALS = await policyMaker.decimals()
   await mockMarketOracle.connect(deployer).storeData(ethers.utils.parseUnits(p, DECIMALS))
   await mockMarketOracle.connect(deployer).storeValidity(true)
 }
 
 async function setCPI(p: string) {
-  let DECIMALS = await policyMaker.DECIMALS()
+  let DECIMALS = await policyMaker.decimals()
   await mockCpiOracle.connect(deployer).storeData(ethers.utils.parseUnits(p, DECIMALS))
   await mockCpiOracle.connect(deployer).storeValidity(true)
 }
@@ -133,7 +133,7 @@ function toBN(x: string) {
 }
 
 async function setTaxParameters(theta: BigNumber, s: BigNumber, v: BigNumber) {
-  let DECIMALS = await policyMaker.DECIMALS()
+  let DECIMALS = await policyMaker.decimals()
   // await policyMaker.connect(deployer).setTaxThetaThreshold(ethers.utils.parseUnits(theta, DECIMALS));
   // await policyMaker.connect(deployer).setTaxStepThreshold(ethers.utils.parseUnits(s, DECIMALS));
   // await policyMaker.connect(deployer).setTaxValue(ethers.utils.parseUnits(v, DECIMALS));
@@ -152,7 +152,7 @@ describe('PolicyMaker: setters of tax parameters', async function () {
       mockCpiOracle,
       policyMaker,
     } = await loadFixture(mockedUpgradablePolicyMaker))
-    DECIMALS = await policyMaker.DECIMALS()
+    DECIMALS = await policyMaker.decimals()
 
   })
   it('set theta to 0 (to be reverted)', async function () {
@@ -218,7 +218,7 @@ describe('PolicyMaker: Tax calculation part', async function () {
       policyMaker,
     } = await loadFixture(mockedUpgradablePolicyMakerWithOpenRebaseWindow))
 
-    DECIMALS = await mockParseToken.DECIMALS()
+    DECIMALS = await mockParseToken.decimals()
     await setCPI('100')
 
   })
@@ -273,7 +273,7 @@ describe('PolicyMaker: epoch of tax', async function () {
     } = await loadFixture(mockedUpgradablePolicyMakerWithOpenRebaseWindow))
     await mockExternalData(INITIAL_RATE_30P_MORE, INITIAL_CPI, 1000, true)
     //await increaseTime(60)
-    DECIMALS = await mockParseToken.DECIMALS()
+    DECIMALS = await mockParseToken.decimals()
   })
 
 

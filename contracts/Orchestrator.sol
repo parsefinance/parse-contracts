@@ -12,7 +12,6 @@ contract Orchestrator is Initializable, OwnableUpgradeable {
         bytes data;
     }
 
-    uint256 public constant DECIMALS = 18;
     Transaction[] public transactions;
     IPolicyMaker public policyMaker;
 

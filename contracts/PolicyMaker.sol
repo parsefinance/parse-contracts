@@ -42,7 +42,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
     int256 public rebaseFunctionUpperPercentage;
     int256 public rebaseFunctionGrowth;
 
-    uint256 public constant DECIMALS = 18;
+    uint256 private constant DECIMALS = 18;
     uint256 private constant MAX_RATE = 10**6 * 10**DECIMALS;
     uint256 private constant MAX_SUPPLY = uint256(type(int256).max) / MAX_RATE;
     uint256 private constant dayINsec = 24 * 60 * 60;
@@ -128,7 +128,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         );
 
         // converting 18-decimals to 9-decimals
-        uint256 decimal_dif = DECIMALS - parseToken.DECIMALS();
+        uint256 decimal_dif = DECIMALS - parseToken.decimals();
         taxRate = taxRate / (10**decimal_dif);
 
         parseToken.setTaxRate(epoch, taxRate);

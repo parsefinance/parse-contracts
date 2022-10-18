@@ -10,5 +10,5 @@ interface IParseToken {
 
     function setTaxRate(uint256 epoch, uint256 taxRate) external;
 
-    function DECIMALS() external returns (uint256);
+    function decimals() external view returns (uint8);
 }

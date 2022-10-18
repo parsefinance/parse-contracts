@@ -4,7 +4,10 @@ import "./Mock.sol";
 
 contract MockParseToken is Mock {
     uint256 private _supply;
-    uint256 public constant DECIMALS = 9;
+
+    function decimals() public view virtual returns (uint8) {
+        return uint8(9);
+    }
 
     // Methods to mock data on the chain
     function storeSupply(uint256 supply) public {
