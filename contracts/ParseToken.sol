@@ -152,11 +152,11 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         override
         returns (bool)
     {
-        address owner = _msgSender();
+        address from = _msgSender();
         uint256 share = amount * _sharePerPARSE;
-        _payTax(owner, amount);
-        _transfer(owner, to, share);
-        emit Transfer(owner, to, amount);
+        _payTax(from, amount);
+        _transfer(from, to, share);
+        emit Transfer(from, to, amount);
 
         return true;
     }
