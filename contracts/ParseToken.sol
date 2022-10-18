@@ -9,7 +9,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     address public policyMaker;
     address public treasury;
 
-    uint256 private constant DECIMALS = 9;
+    uint256 public constant DECIMALS = 9;
     uint256 private constant INITIAL_PARSE_SUPPLY = 50 * 10**6 * 10**DECIMALS;
 
     uint256 private constant TOTAL_SHARE =
