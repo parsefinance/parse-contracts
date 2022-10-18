@@ -27,6 +27,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     event taxRateUpdated(uint256 indexed epoch, uint256 taxRate);
     event policyMakerUpdated(address policyMaker);
     event treasuryUpdated(address oldTreasury, address newTreasury);
+    event taxDeducted(address indexed from, address indexed to, uint256 value);
 
     modifier onlyPolicyMaker() {
         require(
@@ -142,7 +143,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
             uint256 taxInPARSE = (amount * taxRate) / (10**DECIMALS);
             uint256 taxInShare = taxInPARSE * _sharePerPARSE;
             _transfer(seller, treasury, taxInShare);
-            emit Transfer(seller, treasury, taxInPARSE);
+            emit taxDeducted(seller, treasury, taxInPARSE);
         }
     }
 
