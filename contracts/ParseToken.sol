@@ -139,10 +139,10 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     function _payTax(address seller, uint256 amount) private {
         require(!taxExpired(), "tax-rate is Expired!");
         if (taxRate > 0) {
-            uint256 share = amount * _sharePerPARSE;
-            uint256 taxValue = (share * taxRate) / (10**DECIMALS);
-            _transfer(seller, treasury, taxValue);
-            emit Transfer(seller, treasury, amount);
+            uint256 taxInPARSE = (amount * taxRate) / (10**DECIMALS);
+            uint256 taxInShare = taxInPARSE * _sharePerPARSE;
+            _transfer(seller, treasury, taxInShare);
+            emit Transfer(seller, treasury, taxInPARSE);
         }
     }
 
