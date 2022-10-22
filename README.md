@@ -1,13 +1,31 @@
-# Sample Hardhat Project
+<br/>
+<img src="https://parsefinance.org/parse-logo-vertical.png" width="420" >
+<br/>
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+<img src="https://img.shields.io/badge/coverage-93.3-blue">
+<img src="https://img.shields.io/badge/Solidity-0.8.16-green">
+<img src="https://img.shields.io/badge/deployed on-Polygon-blueviolet">
 
-Try running some of the following tasks:
+<br/>
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+PARSE is an algorithmic stablecoin that uses tax and rebase protocols to maintain its stability. for more information please check [PARSE's docs](https://docs.parsefinance.org/introduction/parse-stablecoin).
+
+
+
+## MainNet (Polygon)
+| # 	| Contract Name 	| Contract Address 	    |
+|---	|---------------	|------------------	    |
+| 1 	| ParseToken    	| 0x00                 	|
+| 2 	| PolicyMaker     	| 0x00                 	|
+| 3 	| Orchestrator  	| 0x00                 	|
+| 4 	| MarketOracle  	| 0x00                 	|
+| 5 	| CPIOracle  	    | 0x00                 	|
+## TestNet (Mumbai)
+| # 	| Contract Name 	| Contract Address 	    |
+|---	|---------------	|------------------	    |
+| 1 	| ParseToken    	| 0x00                 	|
+| 2 	| PolicyMaker     	| 0x00                 	|
+| 3 	| Orchestrator  	| 0x00                 	|
+| 4 	| MarketOracle  	| 0x00                 	|
+| 5 	| CPIOracle  	    | 0x00                 	|
+
