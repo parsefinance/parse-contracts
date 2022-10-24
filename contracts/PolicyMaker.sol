@@ -104,7 +104,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
     ) public pure returns (uint256 taxRate) {
         taxRate = 0;
         if (
-            normalizedRate <
+            normalizedRate <=
             (10**DECIMALS - taxStepThreshold_ - taxThetaThreshold_)
         ) {
             uint256 k = 10**DECIMALS;
