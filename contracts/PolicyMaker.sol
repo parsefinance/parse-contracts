@@ -248,7 +248,7 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
             rebaseLowerThreshold) / (10**DECIMALS);
         if (
             (exchangeRate > targetRate) &&
-            (exchangeRate > (targetRate + absoluterebaseUpperThreshold))
+            (exchangeRate >= (targetRate + absoluterebaseUpperThreshold))
         ) {
             // rebase
             rebase(exchangeRate, targetRate, cpi);
@@ -257,14 +257,14 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         } else if (
             (exchangeRate < targetRate) &&
             (exchangeRate <= (targetRate - taxThetaThreshold)) &&
-            (exchangeRate >= (targetRate - absoluterebaseLowerThreshold))
+            (exchangeRate > (targetRate - absoluterebaseLowerThreshold))
         ) {
             // tax
             imposeTax(exchangeRate, targetRate);
             return;
         } else if (
             (exchangeRate < targetRate) &&
-            (exchangeRate < targetRate - absoluterebaseLowerThreshold)
+            (exchangeRate <= targetRate - absoluterebaseLowerThreshold)
         ) {
             // rebase
             rebase(exchangeRate, targetRate, cpi);
