@@ -1,12 +1,9 @@
-<br/>
-<img src="https://parsefinance.org/parse-logo-vertical.png" width="420" >
-<br/>
-
-<img src="https://img.shields.io/badge/coverage-93.3-blue">
-<img src="https://img.shields.io/badge/Solidity-0.8.16-green">
-<img src="https://img.shields.io/badge/deployed on-Polygon-blueviolet">
-
-<br/>
+<img src="https://parsefinance.org/parse-logo-vertical.png" width="420">
+<p float="left" align="middle">
+    <img src="https://img.shields.io/badge/coverage-93.3-blue">
+    <img src="https://img.shields.io/badge/Solidity-0.8.16-green">
+    <img src="https://img.shields.io/badge/deployed on-Polygon-blueviolet">
+</p>
 
 PARSE is an algorithmic stablecoin that uses tax and rebase protocols to maintain its stability. for more information please check [PARSE's docs](https://docs.parsefinance.org/introduction/parse-stablecoin).
 
