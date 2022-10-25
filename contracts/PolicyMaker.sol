@@ -64,15 +64,18 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
     {
         __Ownable_init();
 
-        // positiveDeviationThreshold = 0.05e18 = 5e16 negativeDeviationThreshold = 0.15e18 = 15e16
-        rebaseUpperThreshold = 5 * 10**(DECIMALS - 2);
-        rebaseLowerThreshold = 15 * 10**(DECIMALS - 2);
+        rebaseUpperThreshold = 10 * 10**(DECIMALS - 2);
+        rebaseLowerThreshold = 12 * 10**(DECIMALS - 2);
 
-        rebaseFunctionGrowth = int256(3 * (10**DECIMALS));
-        rebaseFunctionUpperPercentage = int256(10 * (10**(DECIMALS - 2))); // 0.1
+        rebaseFunctionGrowth = int256(756 * (10**(DECIMALS - 2)));
+        rebaseFunctionUpperPercentage = int256(10 * (10**(DECIMALS - 2)));
         rebaseFunctionLowerPercentage = int256(
             (-10) * int256(10**(DECIMALS - 2))
-        ); // -0.1
+        );
+
+        taxStepThreshold = 1 * 10**(DECIMALS - 2);
+        taxThetaThreshold = 1 * 10**(DECIMALS - 2);
+        taxValue = 3 * 10**(DECIMALS - 3);
 
         minRebaseOrTaxTimeIntervalSec = 1 days;
         rebaseOrTaxWindowOffsetSec = 7200; // 2AM UTC
