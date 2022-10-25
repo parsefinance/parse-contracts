@@ -20,8 +20,6 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     uint256 private _totalPARSESupply;
 
     uint256 public taxRate;
-    uint256 public taxExpirationTime;
-    uint256 public lastTimeTaxUpdated;
 
     event rebased(uint256 indexed epoch, uint256 totalSupply);
     event taxRateUpdated(uint256 indexed epoch, uint256 taxRate);
@@ -51,34 +49,21 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         emit Transfer(address(0), owner(), _totalPARSESupply);
 
         taxRate = 0;
-        taxExpirationTime = 26 * 60 * 60; //26 hours in sec
-        lastTimeTaxUpdated = block.timestamp;
     }
 
     function decimals() public view virtual override returns (uint8) {
         return uint8(DECIMALS);
     }
 
-    function taxExpired() private view returns (bool) {
-        return (block.timestamp >= (lastTimeTaxUpdated + taxExpirationTime));
-    }
 
     function setTaxRate(uint256 epoch, uint256 taxRate_)
         external
         onlyPolicyMaker
     {
         taxRate = taxRate_;
-        lastTimeTaxUpdated = block.timestamp;
         emit taxRateUpdated(epoch, taxRate_);
     }
 
-    function setTaxExpirationTime(uint256 taxExpirationTime_)
-        external
-        onlyOwner
-    {
-        require(taxExpirationTime_ > 0, "taxExpirationTime_ > 0");
-        taxExpirationTime = taxExpirationTime_;
-    }
 
     function setPolicyMaker(address policyMaker_) external onlyOwner {
         policyMaker = policyMaker_;
@@ -138,7 +123,6 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     }
 
     function _payTax(address seller, uint256 amount) private {
-        require(!taxExpired(), "tax-rate is Expired!");
         if (taxRate > 0) {
             uint256 taxInPARSE = (amount * taxRate) / (10**DECIMALS);
             uint256 taxInShare = taxInPARSE * _sharePerPARSE;
