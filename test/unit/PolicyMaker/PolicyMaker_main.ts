@@ -64,6 +64,8 @@ async function mockedUpgradablePolicy() {
       initializer: 'initialize(address,uint256)',
     },
   )
+  await policyMaker.connect(deployer).setRebaseFunctionGrowth(ethers.utils.parseUnits('3', 18))
+
   // setup oracles
   await policyMaker
     .connect(deployer)
