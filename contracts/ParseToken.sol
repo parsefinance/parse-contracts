@@ -10,7 +10,7 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     address public treasury;
 
     uint256 private constant DECIMALS = 9;
-    uint256 private constant INITIAL_PARSE_SUPPLY = 50 * 10**6 * 10**DECIMALS;
+    uint256 private constant INITIAL_PARSE_SUPPLY = 10 * 10**6 * 10**DECIMALS;
 
     uint256 private constant TOTAL_SHARE =
         type(uint256).max - (type(uint256).max % INITIAL_PARSE_SUPPLY);
@@ -55,7 +55,6 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         return uint8(DECIMALS);
     }
 
-
     function setTaxRate(uint256 epoch, uint256 taxRate_)
         external
         onlyPolicyMaker
@@ -63,7 +62,6 @@ contract ParseToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         taxRate = taxRate_;
         emit taxRateUpdated(epoch, taxRate_);
     }
-
 
     function setPolicyMaker(address policyMaker_) external onlyOwner {
         policyMaker = policyMaker_;
