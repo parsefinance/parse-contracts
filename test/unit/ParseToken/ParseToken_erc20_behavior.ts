@@ -31,7 +31,7 @@ const toFixedPoint = (value: string): BigNumber =>
   ethers.utils.parseUnits(value, DECIMALS)
 
 const DECIMALS = 9
-const INITIAL_SUPPLY = ethers.utils.parseUnits('50', 6 + DECIMALS)
+const INITIAL_SUPPLY = ethers.utils.parseUnits('10', 6 + DECIMALS)
 const transferAmount = toFixedPoint('10')
 const unitTokenAmount = toFixedPoint('1')
 const overdraftAmount = INITIAL_SUPPLY.add(unitTokenAmount)

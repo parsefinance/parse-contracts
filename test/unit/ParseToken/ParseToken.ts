@@ -6,7 +6,7 @@ const toFixedPoint = (ample: string): BigNumber =>
   ethers.utils.parseUnits(ample, DECIMALS)
 
 const DECIMALS = 9
-const INITIAL_SUPPLY = ethers.utils.parseUnits('50', 6 + DECIMALS)
+const INITIAL_SUPPLY = ethers.utils.parseUnits('10', 6 + DECIMALS)
 const MAX_UINT256 = ethers.BigNumber.from(2).pow(256).sub(1)
 const MAX_INT256 = ethers.BigNumber.from(2).pow(255).sub(1)
 const TOTAL_SHARE = MAX_UINT256.sub(MAX_UINT256.mod(INITIAL_SUPPLY))
@@ -180,10 +180,10 @@ describe('ParseToken:Rebase:Expansion', async () => {
 
     expect(await parseToken.totalShareSupply()).to.eq(TOTAL_SHARE)
     expect(await parseToken.shareOf(await A.getAddress())).to.eq(
-      '1736881338559742931353564775130318617799049769984608460591863250000000000',
+      '8684406692798714656767823875651593088995248849923042302959318500000000000',
     )
     expect(await parseToken.shareOf(await B.getAddress())).to.eq(
-      '578960446186580977117854925043439539266349923328202820197287750000000000',
+      '2894802230932904885589274625217197696331749616641014100986439500000000000',
     )
   })
 
@@ -212,10 +212,10 @@ describe('ParseToken:Rebase:Expansion', async () => {
 
   it('should NOT CHANGE the individual scaled balances', async function () {
     expect(await parseToken.shareOf(await A.getAddress())).to.eq(
-      '1736881338559742931353564775130318617799049769984608460591863250000000000',
+      '8684406692798714656767823875651593088995248849923042302959318500000000000',
     )
     expect(await parseToken.shareOf(await B.getAddress())).to.eq(
-      '578960446186580977117854925043439539266349923328202820197287750000000000',
+      '2894802230932904885589274625217197696331749616641014100986439500000000000',
     )
   })
 
@@ -308,10 +308,10 @@ describe('ParseToken:Rebase:NoChange', function () {
 
     expect(await parseToken.totalShareSupply()).to.eq(TOTAL_SHARE)
     expect(await parseToken.shareOf(await A.getAddress())).to.eq(
-      '1736881338559742931353564775130318617799049769984608460591863250000000000',
+      '8684406692798714656767823875651593088995248849923042302959318500000000000',
     )
     expect(await parseToken.shareOf(await B.getAddress())).to.eq(
-      '578960446186580977117854925043439539266349923328202820197287750000000000',
+      '2894802230932904885589274625217197696331749616641014100986439500000000000',
     )
   })
 
@@ -340,10 +340,10 @@ describe('ParseToken:Rebase:NoChange', function () {
 
   it('should NOT CHANGE the individual scaled balances', async function () {
     expect(await parseToken.shareOf(await A.getAddress())).to.eq(
-      '1736881338559742931353564775130318617799049769984608460591863250000000000',
+      '8684406692798714656767823875651593088995248849923042302959318500000000000',
     )
     expect(await parseToken.shareOf(await B.getAddress())).to.eq(
-      '578960446186580977117854925043439539266349923328202820197287750000000000',
+      '2894802230932904885589274625217197696331749616641014100986439500000000000',
     )
   })
 })
@@ -378,10 +378,10 @@ describe('ParseToken:Rebase:Contraction', function () {
 
     expect(await parseToken.totalShareSupply()).to.eq(TOTAL_SHARE)
     expect(await parseToken.shareOf(await A.getAddress())).to.eq(
-      '1736881338559742931353564775130318617799049769984608460591863250000000000',
+      '8684406692798714656767823875651593088995248849923042302959318500000000000',
     )
     expect(await parseToken.shareOf(await B.getAddress())).to.eq(
-      '578960446186580977117854925043439539266349923328202820197287750000000000',
+      '2894802230932904885589274625217197696331749616641014100986439500000000000',
     )
   })
 
@@ -410,10 +410,10 @@ describe('ParseToken:Rebase:Contraction', function () {
 
   it('should NOT CHANGE the individual scaled balances', async function () {
     expect(await parseToken.shareOf(await A.getAddress())).to.eq(
-      '1736881338559742931353564775130318617799049769984608460591863250000000000',
+      '8684406692798714656767823875651593088995248849923042302959318500000000000',
     )
     expect(await parseToken.shareOf(await B.getAddress())).to.eq(
-      '578960446186580977117854925043439539266349923328202820197287750000000000',
+      '2894802230932904885589274625217197696331749616641014100986439500000000000',
     )
   })
 })
