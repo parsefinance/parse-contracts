@@ -78,8 +78,8 @@ contract PolicyMaker is Initializable, OwnableUpgradeable {
         taxValue = 3 * 10**(DECIMALS - 3);
 
         minRebaseOrTaxTimeIntervalSec = 1 days;
-        rebaseOrTaxWindowOffsetSec = 7200; // 2AM UTC
-        rebaseOrTaxWindowLengthSec = 20 minutes;
+        rebaseOrTaxWindowOffsetSec = 14400; // 4AM UTC
+        rebaseOrTaxWindowLengthSec = 30 minutes;
 
         lastRebaseOrTaxTimestampSec = 0;
         epoch = 0;

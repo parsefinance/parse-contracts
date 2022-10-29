@@ -180,10 +180,10 @@ describe('UFragmentsPolicy:initialize', async function () {
     })
 
     it('rebaseOrTaxWindowOffsetSec', async function () {
-      expect(await policyMaker.rebaseOrTaxWindowOffsetSec()).to.eq(7200)
+      expect(await policyMaker.rebaseOrTaxWindowOffsetSec()).to.eq(14400)
     })
     it('rebaseOrTaxWindowLengthSec', async function () {
-      expect(await policyMaker.rebaseOrTaxWindowLengthSec()).to.eq(1200)
+      expect(await policyMaker.rebaseOrTaxWindowLengthSec()).to.eq(1800)
     })
     it('should set owner', async function () {
       expect(await policyMaker.owner()).to.eq(await deployer.getAddress())
