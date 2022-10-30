@@ -10,19 +10,19 @@ PARSE is an algorithmic stablecoin that uses tax and rebase protocols to maintai
 
 
 ## MainNet (Polygon)
-| # 	| Contract Name 	| Contract Address 	    |
-|---	|---------------	|------------------	    |
-| 1 	| ParseToken    	| 0x00                 	|
-| 2 	| PolicyMaker     	| 0x00                 	|
-| 3 	| Orchestrator  	| 0x00                 	|
-| 4 	| MarketOracle  	| 0x00                 	|
-| 5 	| CPIOracle  	    | 0x00                 	|
+| # 	| Contract Name 	| Contract Address 	                                            |
+|---	|---------------	|------------------------------------------------------------   |
+| 1 	| ParseToken    	| 0xFF82a94c456bf43FC49F5BdDFd27a4B551bbe5e8                 	|
+| 2 	| PolicyMaker     	| 0x8abC9Be9FEB7cB3ED0D3360212feD378D6100698                 	|
+| 3 	| Orchestrator  	| 0xEDbDaf2D8f1DbcbA69bBEa755c44c2b946b30986                 	|
+| 4 	| MarketOracle  	| 0x7d10240D1F5dd46565Ce00688e8f826e39ee4405                 	|
+| 5 	| CPIOracle  	    | 0xe9018CFc81cCc9d5DD1cAc4A51fd4F96b42B9D0C                 	|
 ## TestNet (Mumbai)
-| # 	| Contract Name 	| Contract Address 	    |
-|---	|---------------	|------------------	    |
-| 1 	| ParseToken    	| 0x00                 	|
-| 2 	| PolicyMaker     	| 0x00                 	|
-| 3 	| Orchestrator  	| 0x00                 	|
-| 4 	| MarketOracle  	| 0x00                 	|
-| 5 	| CPIOracle  	    | 0x00                 	|
+| # 	| Contract Name 	| Contract Address                                       	    |
+|---	|---------------	|------------------------------------------------------------   |
+| 1 	| ParseToken    	| 0x79aA9F04417edE69216F8E51CDD87EC5e48f211f                 	|
+| 2 	| PolicyMaker     	| 0x905E18345ed43EF8fFd2D91373B7CEA3Ba4F5B51                 	|
+| 3 	| Orchestrator  	| 0x30F7906E43E5CD5D6c6e026e890d3EB0b05A5e6D                 	|
+| 4 	| MarketOracle  	| 0x55A7BF668A63B3bEd3DbD8dc367E865Cf8da1b53                 	|
+| 5 	| CPIOracle  	    | 0x1D99c5b8aC8896E9079279d634A19148C27EDa88                 	|
 
